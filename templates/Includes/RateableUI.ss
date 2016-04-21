@@ -1,1 +1,1 @@
-<div id="$RatingHTMLID" class="$RatingCSSClass" data-averagescore="$AverageScore" data-ratepath="$RatePath"></div>
+<div id="$RatingHTMLID" class="$RatingCSSClass" data-userrating="$CurrentUserRating" data-averagescore="$AverageScore" data-ratepath="$RatePath" data-clearratepath="$ClearRatePath"></div>

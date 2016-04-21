@@ -160,4 +160,17 @@ class Rateable extends DataExtension
     {
         return Controller::join_links(RateableController::URLSegment, 'rate', $this->owner->ClassName, $this->owner->ID);
     }
+
+    public function ClearRatePath()
+    {
+        return Controller::join_links(RateableController::URLSegment, 'clear', $this->owner->ClassName, $this->owner->ID);
+    }
+
+    public function CurrentUserRating(){
+        $userRating = DataObject::get('Rating')->filter(array(
+            'MemberID' => Member::currentUserID(),
+            'ObjectID' => $this->owner->ID
+        ));
+        return $userRating[0]->Score;
+    }
 }

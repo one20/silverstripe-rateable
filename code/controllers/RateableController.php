@@ -13,7 +13,8 @@ class RateableController extends Controller
     );
     
     public static $allowed_actions = array(
-        'rate'
+        'rate',
+        'clear'
     );
 
     /**
@@ -68,7 +69,30 @@ class RateableController extends Controller
         return Convert::raw2json(array(
             'status' => 'success',
             'averagescore' => $object->getAverageScore(),
+            'userrating' => $score,
             'message' => _t('RateableController.THANKYOUMESSAGE', 'Thanks for rating!')
+        ));
+    }
+
+    public function clear($request){
+        $class    = $request->param('ObjectClassName');
+        $id    = (int)$request->param('ObjectID');
+        $object = $class::get()->byID($id);
+
+        $userRating = DataObject::get('Rating')->filter(array(
+            'MemberID' => Member::currentUserID(),
+            'ObjectID' => $id
+        ));
+
+        $userRating = $userRating[0];
+        $userRating->delete();
+
+        //$userRating = $object->filter(array('MemberID' => Member::currentUserID()));
+
+        return Convert::raw2json(array(
+            'status' => 'success',
+            'averagescore' => $object->getAverageScore(),
+            'userID' => 1
         ));
     }
 }
